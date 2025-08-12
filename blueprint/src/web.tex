@@ -1,0 +1,27 @@
+% This file makes a web version of the blueprint
+% It should include all the \usepackage needed for this version.
+% The template includes standard AMS packages.
+% It is otherwise a very minimal preamble (you should probably at least
+% add cleveref and tikz-cd).
+
+\documentclass{report}
+
+\usepackage{amssymb, amsthm, amsmath}
+\usepackage{hyperref}
+\usepackage[showmore, dep_graph]{blueprint}
+
+
+\input{macros/common}
+\input{macros/web}
+
+\home{https://cstephanUP.github.io/SpectralTripleReconstruction}
+\github{https://github.com/cstephanUP/SpectralTripleReconstruction}
+\dochome{https://cstephanUP.github.io/SpectralTripleReconstruction/docs}
+
+\title{Reconstruction theorem for commutative spectral triples}
+\author{Project to formalise Connes' reconstruction theorem}
+
+\begin{document}
+\maketitle
+\input{content}
+\end{document}
