@@ -5,3 +5,143 @@
 % If you want to split the blueprint content into several files then
 % the current file can be a simple sequence of \input. Otherwise It
 % can start with a \section or \chapter for instance.
+
+% === Blueprint: Spectral Characterization of Manifolds (Connes 2008) ===
+% Paste this into blueprint/src/content.tex. No preamble/document env needed.
+
+\section{Roadmap}
+This blueprint follows Connes (2008). We encode the five axioms for a commutative spectral triple and the milestones used in the proof:
+openness of local charts, absolute continuity of the joint spectral measure, multiplicity bounds / local injectivity, and finally the reconstruction theorem.
+
+\section{Foundations}
+
+\begin{definition}\label{def:spectral_triple}
+A \emph{spectral triple} $(A,H,D)$ consists of a (pre-)$\ast$-algebra $A$ faithfully represented on a Hilbert space $H$ and a self-adjoint (typically unbounded) operator $D$ on $H$ with compact resolvent such that $[D,a]$ is bounded for all $a\in A$.
+\end{definition}
+
+\begin{definition}\label{def:commutative}
+A spectral triple $(A,H,D)$ is \emph{commutative} if $A$ is commutative.  % used throughout
+\uses{def:spectral_triple}
+\end{definition}
+
+\begin{definition}\label{def:delta}
+Let $\delta(T) := [\,|D|,\,T\,]$ (on its natural domain). % Connes' derivation used in regularity
+\uses{def:spectral_triple}
+\end{definition}
+
+\begin{definition}\label{def:Hinf}
+Define $H^\infty := \bigcap_{m\ge 0} \mathrm{Dom}\,D^m$.
+\uses{def:spectral_triple}
+\end{definition}
+
+\begin{definition}\label{def:piD}
+For $a_0,\dots,a_p\in A$, set $\pi_D(a_0\otimes\cdots\otimes a_p) := a_0 [D,a_1]\cdots [D,a_p]$.
+\uses{def:spectral_triple}
+\end{definition}
+
+\begin{definition}\label{def:dixmier}
+(Background) An operator $T\ge 0$ is \emph{measurable} if its Dixmier trace $\mathrm{Tr}_\omega(T)$ is independent of the choice of generalized limit; in particular $a|D|^{-p}$ is measurable in our setting.
+\uses{def:spectral_triple}
+\end{definition}
+
+\section{The five axioms (Connes 2008, §2)}
+% We encode the axioms as tracked items so they appear on the dependency graph.
+
+\begin{definition}[Dimension axiom]\label{ax:dimension}
+There is an integer $p\ge 1$ such that the $n$-th characteristic value of the resolvent of $D$ is $O(n^{-1/p})$ (i.e.\ $|D|^{-p}$ is of Dixmier-trace class).
+\uses{def:spectral_triple,def:dixmier}
+\end{definition}
+
+\begin{definition}[Order-one axiom]\label{ax:orderone}
+$[[D,f],g]=0$ for all $f,g\in A$.
+\uses{def:spectral_triple}
+\end{definition}
+
+\begin{definition}[Regularity axiom]\label{ax:regularity}
+For any $a\in A$, both $a$ and $[D,a]$ lie in the domain of $\delta^m$ for every $m\in\mathbb{N}$.
+\uses{def:delta,def:spectral_triple}
+\end{definition}
+
+\begin{definition}[Orientability axiom]\label{ax:orientability}
+There exists a Hochschild $p$-cycle $c\in Z_p(A,A)$ such that $\pi_D(c)=1$ if $p$ is odd, and $\pi_D(c)=\gamma$ if $p$ is even, where $\gamma=\gamma^\ast$, $\gamma^2=1$, and $\gamma D=-D\gamma$.
+\uses{def:piD,def:spectral_triple}
+\end{definition}
+
+\begin{definition}[Finiteness \& absolute continuity]\label{ax:finiteness}
+As an $A$-module, $H^\infty$ is finite projective; moreover the equality
+\[
+\langle \xi, a\, \eta \rangle \;=\; \int\nolimits_{-}\, a\, (\xi\mid \eta)\, |D|^{-p}
+\]
+defines a Hermitian $A$-valued inner product $(\xi\mid\eta)\in A$ on $H^\infty$.
+\uses{def:Hinf,def:dixmier}
+\end{definition}
+
+\begin{definition}[Strengthenings used in the paper]\label{ax:strengthenings}
+(i) Regularity holds for all $A$-endomorphisms of $H^\infty$; \quad
+(ii) The Hochschild cycle $c$ may be assumed antisymmetric.
+\uses{ax:regularity,ax:orientability,def:Hinf}
+\end{definition}
+
+\section{Milestones toward reconstruction}
+
+\begin{lemma}[Openness of tentative charts]\label{lem:openness}
+Let $c=\sum_\alpha a^0_\alpha\otimes a^1_\alpha\otimes\cdots\otimes a^p_\alpha$ be the Hochschild cycle from \ref{ax:orientability}.
+For a fixed $\alpha$, view $s_\alpha=(a^1_\alpha,\dots,a^p_\alpha):\mathrm{Spec}(A)\to\mathbb{R}^p$.
+Under \ref{ax:dimension}, \ref{ax:orderone}, \ref{ax:regularity}, and \ref{ax:strengthenings}, each $s_\alpha$ has open image locally (implicit-function-theorem step).
+\uses{ax:dimension,ax:orderone,ax:regularity,ax:orientability,ax:strengthenings}
+\end{lemma}
+
+\begin{proposition}[Absolute continuity of the joint spectral measure]\label{prop:absolute_continuity}
+The joint spectral measure of the components of a local chart $s_\alpha$ is (locally) absolutely continuous w.r.t.\ Lebesgue measure, via the measurability of $a|D|^{-p}$ and Dixmier-trace invariance.
+\uses{ax:regularity,ax:finiteness,def:dixmier,lem:openness}
+\end{proposition}
+
+\begin{proposition}[Spectral multiplicity control]\label{prop:spectral_multiplicity}
+The multiplicity of $s_\alpha$ is bounded above by the spectral multiplicity coming from the representation on $H$ (Voiculescu-type bound).
+\uses{prop:absolute_continuity,ax:regularity}
+\end{proposition}
+
+\begin{proposition}[Local injectivity of charts]\label{prop:local_injectivity}
+Combining the local bound with the openness, one obtains local injectivity of $s_\alpha$ on suitable neighborhoods.
+\uses{lem:openness,prop:spectral_multiplicity}
+\end{proposition}
+
+\section{Main theorems}
+
+\begin{theorem}[Reconstruction Theorem (Connes 2008, Thm.\ 1.1)]\label{thm:reconstruction}
+Let $(A,H,D)$ be a commutative spectral triple satisfying \ref{ax:dimension}, \ref{ax:orderone}, \ref{ax:regularity}, \ref{ax:orientability}, \ref{ax:finiteness}, together with \ref{ax:strengthenings}.
+Then there exists a compact oriented smooth manifold $X$ with $A \cong C^\infty(X)$.
+Moreover, every compact oriented smooth manifold appears this way.
+\uses{def:commutative,ax:dimension,ax:orderone,ax:regularity,ax:orientability,ax:finiteness,ax:strengthenings,prop:local_injectivity}
+\end{theorem}
+
+\begin{theorem}[Spin$^c$ variant (Connes 2008, Thm.\ 1.2)]\label{thm:spin_c}
+Assume \ref{ax:dimension}, \ref{ax:orderone}, \ref{ax:regularity}, \ref{ax:orientability}, and the antisymmetry of $c$.
+If the multiplicity of the action of $A''$ on $H$ is $2^{\lfloor p/2\rfloor}$, then there is a compact oriented smooth spin$^c$ manifold $X$ with $A=C^\infty(X)$.
+\uses{ax:dimension,ax:orderone,ax:regularity,ax:orientability,prop:spectral_multiplicity}
+\end{theorem}
+
+\begin{corollary}[Dirac-type operator]\label{cor:dirac_type}
+In the reconstructed picture, $D$ is of Dirac type and the metric is Riemannian; with the reality condition, one recovers spin manifolds; with the spectral action, Levi-Civita connection.
+\uses{thm:reconstruction}
+\end{corollary}
+
+\section{Next steps / placeholders for finer structure}
+% Add precise intermediate results as you read & translate more details:
+
+\begin{lemma}[Dissipative derivations]\label{lem:dissipative}
+Key step to exponentiate enough $\ast$-derivations of $A$ to 1-parameter automorphism groups (Hille--Yosida).
+\uses{ax:regularity,ax:finiteness}
+\end{lemma}
+
+\begin{lemma}[Self-adjointness and derivations]\label{lem:selfadjointness_derivations}
+Use self-adjointness of $D$ and strong regularity to integrate derivations; continuity for Sobolev norms gives automorphisms of $A$.
+\uses{ax:regularity,def:delta}
+\end{lemma}
+
+\begin{lemma}[Local form of Voiculescu bound]\label{lem:local_voiculescu}
+Local inequality giving an upper bound on the obstruction, enabling local injectivity when combined with \ref{lem:openness}.
+\uses{ax:regularity}
+\end{lemma}
+
+% --- End skeleton ---
