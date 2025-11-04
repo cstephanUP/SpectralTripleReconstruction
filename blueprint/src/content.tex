@@ -9,139 +9,157 @@
 % === Blueprint: Spectral Characterization of Manifolds (Connes 2008) ===
 % Paste this into blueprint/src/content.tex. No preamble/document env needed.
 
+\newcommand{\ncint}{\mathchoice{\int\!\!\!\!\!\!-\!}{\int\!\!\!\!-\!}{\int\!\!-\!}{\int\!-\!}}
+
 \chapter{Roadmap}
-This blueprint follows Connes (2008). We encode the five axioms for a commutative spectral triple and the milestones used in the proof:
-openness of local charts, absolute continuity of the joint spectral measure, multiplicity bounds / local injectivity, and finally the reconstruction theorem.
+This blueprint follows Connes (2008) \cite{Connes2008}. First we define a spectral triple for commutative algebras as in Connes (1996) \cite{Connes1996}.
 
-\section{Foundations}
 
-\begin{definition}\label{def:spectral_triple}
-A \emph{spectral triple} $(A,H,D)$ consists of a (pre-)$\ast$-algebra $A$ faithfully represented on a Hilbert space $H$ and a self-adjoint (typically unbounded) operator $D$ on $H$ with compact resolvent such that $[D,a]$ is bounded for all $a\in A$.
+\section{Collecting everything} 
+This section collects all the necessary definitions, theorems and lemmas. It will be reworked when the basic structure of the proof is clear.
+
+\begin{definition}[Involutive Algebra]\label{def:involutive-algebra}
+    Let $\mathcal{A}$ be an involutive algebra over $\mathbb{C}$.
 \end{definition}
 
-\begin{definition}\label{def:commutative}
-A spectral triple $(A,H,D)$ is \emph{commutative} if $A$ is commutative.  % used throughout
-\uses{def:spectral_triple}
+\begin{definition}[Hilbert Space]\label{def:hilbert-space}
+    Let $\mathcal{H}$ be a Hilbert space.
 \end{definition}
 
-\begin{definition}\label{def:delta}
-Let $\delta(T) := [\,|D|,\,T\,]$ (on its natural domain). % Connes' derivation used in regularity
-\uses{def:spectral_triple}
+
+\begin{definition}[Self-Adjoint Operator]\label{def:self-adjoint-operator}
+    Let $D$ be a self-adjoint operator on $\mathcal{H}$.
+    \uses{def:hilbert-space}
 \end{definition}
 
-\begin{definition}\label{def:Hinf}
-Define $H^\infty := \bigcap_{m\ge 0} \mathrm{Dom}\,D^m$.
-\uses{def:spectral_triple}
+\begin{definition}[Representation of Algebra]\label{def:representation-of-algebra}
+    Let $\mathcal{A}$ be a represented on $\mathcal{H}$.
+    \uses{def:involutive-algebra, def:hilbert-space}
 \end{definition}
 
-\begin{definition}\label{def:piD}
-For $a_0,\dots,a_p\in A$, set $\pi_D(a_0\otimes\cdots\otimes a_p) := a_0 [D,a_1]\cdots [D,a_p]$.
-\uses{def:spectral_triple}
+\begin{definition}[Spectral Dimension]\label{def:spectral-dimension}
+    A self-adjoint operator $D$ has spectral dimension $p \in \mathbb{N}$ if the $n$-th characteristic value of the resolvent of $D$ is  $O(n^{-1/p})$.
+    \uses{def:self-adjoint-operator}
 \end{definition}
 
-\begin{definition}\label{def:dixmier}
-(Background) An operator $T\ge 0$ is \emph{measurable} if its Dixmier trace $\mathrm{Tr}_\omega(T)$ is independent of the choice of generalized limit; in particular $a|D|^{-p}$ is measurable in our setting.
-\uses{def:spectral_triple}
+\begin{definition}[Order One]\label{def:order-one}
+    A self-adjoint operator $D$ is called of order one if for all $a,b \in \mathcal{A}$, $[[D,a],b] = 0$.
+    \uses{def:involutive-algebra, def:self-adjoint-operator, def:representation-of-algebra}
 \end{definition}
 
-\section{The five axioms (Connes 2008, §2)}
-% We encode the axioms as tracked items so they appear on the dependency graph.
-
-\begin{definition}[Dimension axiom]\label{ax:dimension}
-There is an integer $p\ge 1$ such that the $n$-th characteristic value of the resolvent of $D$ is $O(n^{-1/p})$ (i.e.\ $|D|^{-p}$ is of Dixmier-trace class).
-\uses{def:spectral_triple,def:dixmier}
+\begin{definition}[Absolute Commutator]\label{def:absolute-commutator}
+    Let $D$ be a self-adjoint operator on $\mathcal{H}$ and let $T$ be a bounded operator on $\mathcal{H}$. The absolute commutator of $D$ and $T$ is defined as $\delta(T):=[|D|,T]$.
+    \uses{def:self-adjoint-operator, def:hilbert-space}
 \end{definition}
 
-\begin{definition}[Order-one axiom]\label{ax:orderone}
-$[[D,f],g]=0$ for all $f,g\in A$.
-\uses{def:spectral_triple}
-\end{definition}
-
-\begin{definition}[Regularity axiom]\label{ax:regularity}
-For any $a\in A$, both $a$ and $[D,a]$ lie in the domain of $\delta^m$ for every $m\in\mathbb{N}$.
-\uses{def:delta,def:spectral_triple}
-\end{definition}
-
-\begin{definition}[Orientability axiom]\label{ax:orientability}
-There exists a Hochschild $p$-cycle $c\in Z_p(A,A)$ such that $\pi_D(c)=1$ if $p$ is odd, and $\pi_D(c)=\gamma$ if $p$ is even, where $\gamma=\gamma^\ast$, $\gamma^2=1$, and $\gamma D=-D\gamma$.
-\uses{def:piD,def:spectral_triple}
-\end{definition}
-
-\begin{definition}[Finiteness \& absolute continuity]\label{ax:finiteness}
-As an $A$-module, $H^\infty$ is finite projective; moreover the equality
-\[
-\langle \xi, a\, \eta \rangle \;=\; \int\nolimits_{-}\, a\, (\xi\mid \eta)\, |D|^{-p}
-\]
-defines a Hermitian $A$-valued inner product $(\xi\mid\eta)\in A$ on $H^\infty$.
-\uses{def:Hinf,def:dixmier}
-\end{definition}
-
-\begin{definition}[Strengthenings used in the paper]\label{ax:strengthenings}
-(i) Regularity holds for all $A$-endomorphisms of $H^\infty$; \quad
-(ii) The Hochschild cycle $c$ may be assumed antisymmetric.
-\uses{ax:regularity,ax:orientability,def:Hinf}
-\end{definition}
-
-\section{Milestones toward reconstruction}
-
-\begin{lemma}[Openness of tentative charts]\label{lem:openness}
-Let $c=\sum_\alpha a^0_\alpha\otimes a^1_\alpha\otimes\cdots\otimes a^p_\alpha$ be the Hochschild cycle from \ref{ax:orientability}.
-For a fixed $\alpha$, view $s_\alpha=(a^1_\alpha,\dots,a^p_\alpha):\mathrm{Spec}(A)\to\mathbb{R}^p$.
-Under \ref{ax:dimension}, \ref{ax:orderone}, \ref{ax:regularity}, and \ref{ax:strengthenings}, each $s_\alpha$ has open image locally (implicit-function-theorem step).
-\uses{ax:dimension,ax:orderone,ax:regularity,ax:orientability,ax:strengthenings}
+\begin{lemma}[Domain of Bounded Operators]\label{lem:domain-of-bounded-operators}
+    Let $D$ be a self-adjoint operator on $\mathcal{H}$ and let $T$ be a bounded operator on $\mathcal{H}$. Then $T$ maps the domain of $|D|$ into itself, i.e. $T \textrm{Dom}(|D|) \subseteq \textrm{Dom}(|D|)$.
+    \uses{def:self-adjoint-operator, def:hilbert-space}
 \end{lemma}
 
-\begin{proposition}[Absolute continuity of the joint spectral measure]\label{prop:absolute_continuity}
-The joint spectral measure of the components of a local chart $s_\alpha$ is (locally) absolutely continuous w.r.t.\ Lebesgue measure, via the measurability of $a|D|^{-p}$ and Dixmier-trace invariance.
-\uses{ax:regularity,ax:finiteness,def:dixmier,lem:openness}
-\end{proposition}
+\begin{lemma}[Boundedness of Absolute Commutator]\label{lem:boundedness-of-absolute-commutator}
+    Let $D$ be a self-adjoint operator on $\mathcal{H}$ and let $T$ be a bounded operator on $\mathcal{H}$. Then the absolute commutator $\delta(T) = [|D|,T]$ is a bounded operator on $\mathcal{H}$.
+    \uses{def:absolute-commutator, def:self-adjoint-operator, def:hilbert-space}
+\end{lemma}
 
-\begin{proposition}[Spectral multiplicity control]\label{prop:spectral_multiplicity}
-The multiplicity of $s_\alpha$ is bounded above by the spectral multiplicity coming from the representation on $H$ (Voiculescu-type bound).
-\uses{prop:absolute_continuity,ax:regularity}
-\end{proposition}
+\begin{definition}[Spectral Regularity] \label{def:spectral-regularity}
+    Let $\mathcal{A}$ be an involutive algebra represented on a Hilbert space $\mathcal{H}$ and let $D$ be a self-adjoint operator on $\mathcal{H}$. The triple $(\mathcal{A}, \mathcal{H}, D)$ is called regular if for all $a \in \mathcal{A}$, $a$ and $[D,a]$ are in the domain $\delta^m$ for any $m \in \mathbb{N}$. 
+    \uses{def:involutive-algebra, def:self-adjoint-operator, def:absolute-commutator, def:representation-of-algebra, def:hilbert-space}
+\end{definition}
 
-\begin{proposition}[Local injectivity of charts]\label{prop:local_injectivity}
-Combining the local bound with the openness, one obtains local injectivity of $s_\alpha$ on suitable neighborhoods.
-\uses{lem:openness,prop:spectral_multiplicity}
-\end{proposition}
+\begin{definition}[Differential Form Map]\label{def:differential-form-map}
+    Let $\mathcal{A}$ be an involutive algebra represented on a Hilbert space $\mathcal{H}$ and let $D$ be a self-adjoint operator on $\mathcal{H}$. The differential form map
+    \[
+    \pi_D: \bigotimes_{j=1}^m \mathcal{A} \to \mathcal{B}(\mathcal{H})
+    \] 
+    is defined as
+    \[
+    \pi_D(a^0 \otimes a^1 \otimes \cdots \otimes a^m) =  a^0 [D,a^1] [D,a^2] \cdots [D,a^m]
+    \]
+    where $a^j \in \mathcal{A}$.
+    \uses{def:involutive-algebra, def:self-adjoint-operator, def:representation-of-algebra, def:hilbert-space}
+\end{definition}
 
-\section{Main theorems}
+\begin{definition}[Spectral Orientability]\label{def:spectral-orientability}
+    Let $\mathcal{A}$ be an involutive algebra represented on a Hilbert space $\mathcal{H}$ and let $D$ be a self-adjoint operator on $\mathcal{H}$. Assume that $D$ has spectral dimension $p$.  
 
-\begin{theorem}[Reconstruction Theorem (Connes 2008, Thm.\ 1.1)]\label{thm:reconstruction}
-Let $(A,H,D)$ be a commutative spectral triple satisfying \ref{ax:dimension}, \ref{ax:orderone}, \ref{ax:regularity}, \ref{ax:orientability}, \ref{ax:finiteness}, together with \ref{ax:strengthenings}.
-Then there exists a compact oriented smooth manifold $X$ with $A \cong C^\infty(X)$.
-Moreover, every compact oriented smooth manifold appears this way.
-\uses{def:commutative,ax:dimension,ax:orderone,ax:regularity,ax:orientability,ax:finiteness,ax:strengthenings,prop:local_injectivity}
+    The triple $(\mathcal{A}, \mathcal{H}, D)$ is called orientable if there exists a Hochschild cycle $c \in Z_p(\mathcal{A},\mathcal{A})$ such that $\pi_D(c)=1$ if $p$ is odd and $\pi_D(c) = \gamma$ if $p$ is even, where $\gamma$ satisfies 
+    \[
+    \gamma = \gamma^*, \quad \gamma^2 = 1, \quad \gamma \, D = -D \, \gamma.
+    \]
+    \uses{def:involutive-algebra, def:self-adjoint-operator, def:differential-form-map, def:representation-of-algebra, def:hilbert-space}  
+\end{definition}
+
+\begin{definition}[Spectral Finiteness]\label{def:spectral-finiteness}
+    Let $\mathcal{A}$ be an involutive algebra represented on a Hilbert space $\mathcal{H}$ and let $D$ be a self-adjoint operator on $\mathcal{H}$. 
+
+    The triple $(\mathcal{A}, \mathcal{H}, D)$ is called finite if the space $\mathcal{H}_\infty := \bigcap_{m \in \mathbb{N}} \textrm{Dom}(|D|^m)$ is a finitely generated projective $\mathcal{A}$-module.
+    \uses{def:involutive-algebra, def:self-adjoint-operator, def:representation-of-algebra, def:hilbert-space}
+\end{definition}
+
+\begin{definition}[Spectral Absolute Continuity]\label{def:spectral-absolute-continuity}
+    Let $\mathcal{A}$ be an involutive algebra represented on a Hilbert space $\mathcal{H}$ and let $D$ be a self-adjoint operator on $\mathcal{H}$. Assume that $D$ has spectral dimension $p$ and that the triple $(\mathcal{A}, \mathcal{H}, D)$ is finite.
+
+    The triple $(\mathcal{A}, \mathcal{H}, D)$ is called absolutely continuous if the equality
+    \[
+    \ncint \, a(\xi\mid\eta)\,|D|^{-p} = \langle \xi, a \eta \rangle
+    \]
+    defines a hermitian structure $(\cdot, \cdot)$ on $\mathcal{H}_\infty$.
+    \uses{def:involutive-algebra, def:self-adjoint-operator, def:representation-of-algebra, def:hilbert-space, def:spectral-finiteness}
+\end{definition}
+
+\begin{definition}[Spectral Triple]\label{def:spectral-triple}
+    A spectral triple $(\mathcal{A}, \mathcal{H}, D)$ consists of an involutive algebra $\mathcal{A}$ represented on a Hilbert space $\mathcal{H}$ and a self-adjoint operator $D$ on $\mathcal{H}$ such that
+    \begin{enumerate}
+        \item $D$ has spectral dimension $p$,
+        \item $D$ is of order one,
+        \item the triple $(\mathcal{A}, \mathcal{H}, D)$ is regular,
+        \item the triple $(\mathcal{A}, \mathcal{H}, D)$ is orientable,
+        \item the triple $(\mathcal{A}, \mathcal{H}, D)$ is finite and
+        \item the triple $(\mathcal{A}, \mathcal{H}, D)$ is absolutely continuous.
+    \end{enumerate}
+    \uses{def:involutive-algebra, def:self-adjoint-operator, def:representation-of-algebra, def:hilbert-space, def:spectral-dimension, def:order-one, def:spectral-regularity, def:spectral-orientability, def:spectral-finiteness, def:spectral-absolute-continuity}
+\end{definition}
+
+
+
+\section{Main Theorems}
+
+\begin{theorem}[Reconstruction Theorem 1.1]\label{thm:reconstruction-theorem-1.1}
+    Let $(\mathcal{A}, \mathcal{H}, D)$ be a spectral triple such that $\mathcal{A}$ is commutative. Assume further that
+    \begin{enumerate}
+        \item regularity holds for all $\mathcal{A}$-endomorphisms of $\mathcal{H}_\infty$ as defined in Definition \ref{def:spectral-regularity} and
+        \item the Hochschild cycle $c \in Z_p(\mathcal{A},\mathcal{A})$ in Definition \ref{def:spectral-orientability} is antisymmetric.
+    \end{enumerate}
+    Then there exists a compact oriented smooth manifold $M$ such that $\mathcal{A} = C^\infty(M)$.
+    \uses{def:spectral-triple}
+\end{theorem}
+    
+
+\begin{theorem}[Reconstruction Theorem 1.2]\label{thm:reconstruction-theorem-1.2}
+    Let $(\mathcal{A}, \mathcal{H}, D)$ be a spectral triple such that $\mathcal{A}$ is commutative. Assume further that
+    \begin{enumerate}
+        \item the Hochschild cycle $c \in Z_p(\mathcal{A},\mathcal{A})$ in Definition \ref{def:spectral-orientability} is antisymmetric and
+        \item that the multiplicity of the action of $\mathcal{A}''$ on $\mathcal{H}$ is $2^{p/2}$.
+    \end{enumerate}
+    Then there exists a compact oriented smooth (spin$^c$) manifold $M$ such that $\mathcal{A} = C^\infty(M)$.
+    \uses{def:spectral-triple}
 \end{theorem}
 
-\begin{theorem}[Spin$^c$ variant (Connes 2008, Thm.\ 1.2)]\label{thm:spin_c}
-Assume \ref{ax:dimension}, \ref{ax:orderone}, \ref{ax:regularity}, \ref{ax:orientability}, and the antisymmetry of $c$.
-If the multiplicity of the action of $A''$ on $H$ is $2^{\lfloor p/2\rfloor}$, then there is a compact oriented smooth spin$^c$ manifold $X$ with $A=C^\infty(X)$.
-\uses{ax:dimension,ax:orderone,ax:regularity,ax:orientability,prop:spectral_multiplicity}
-\end{theorem}
-
-\begin{corollary}[Dirac-type operator]\label{cor:dirac_type}
-In the reconstructed picture, $D$ is of Dirac type and the metric is Riemannian; with the reality condition, one recovers spin manifolds; with the spectral action, Levi-Civita connection.
-\uses{thm:reconstruction}
+\begin{corollary}[Reconstruction Theorem 1.2.a]\label{cor:reconstruction-theorem-1.2.a}
+    The self-adjoint operator $D$ in Theorem \ref{thm:reconstruction-theorem-1.2} is a Dirac-type operator on $M$.
+    \uses{def:spectral-triple, thm:reconstruction-theorem-1.2}
 \end{corollary}
 
-\section{Next steps / placeholders for finer structure}
-% Add precise intermediate results as you read & translate more details:
 
-\begin{lemma}[Dissipative derivations]\label{lem:dissipative}
-Key step to exponentiate enough $\ast$-derivations of $A$ to 1-parameter automorphism groups (Hille--Yosida).
-\uses{ax:regularity,ax:finiteness}
-\end{lemma}
+\section{Bibliography}
 
-\begin{lemma}[Self-adjointness and derivations]\label{lem:selfadjointness_derivations}
-Use self-adjointness of $D$ and strong regularity to integrate derivations; continuity for Sobolev norms gives automorphisms of $A$.
-\uses{ax:regularity,def:delta}
-\end{lemma}
+\begin{thebibliography}{20}
+    \bibitem{Connes1996} A. Connes, \emph{Gravity coupled with matter and the foundation of non-commutative geometry}, Commun. Math. Phys. 182 (1996), no. 1, 155–176. \url{https://doi.org/10.1007/BF02506388}
+    \bibitem{Connes2008} A. Connes, \emph{On the spectral characterization of manifolds}, J. Noncommut. Geom. 7 (2013), no. 1, 1–82. \url{https://doi.org/10.4171/jncg/108} 
+\end{thebibliography}
 
-\begin{lemma}[Local form of Voiculescu bound]\label{lem:local_voiculescu}
-Local inequality giving an upper bound on the obstruction, enabling local injectivity when combined with \ref{lem:openness}.
-\uses{ax:regularity}
-\end{lemma}
+
+
 
 % --- End skeleton ---
