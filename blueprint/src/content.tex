@@ -15,7 +15,7 @@
 This blueprint follows Connes (2008) \cite{Connes2008}. First we define a spectral triple for commutative algebras as in Connes (1996) \cite{Connes1996}.
 
 
-\section{Collecting everything} 
+\section{Preliminaries (Chapter 2 in \cite{Connes2008})} 
 This section collects all the necessary definitions, theorems and lemmas. It will be reworked when the basic structure of the proof is clear.
 
 \begin{definition}[Involutive Algebra]\label{def:involutive-algebra}
@@ -122,6 +122,42 @@ This section collects all the necessary definitions, theorems and lemmas. It wil
 \end{definition}
 
 
+\begin{lemma}[Lemma 2.0.1]\label{lem:lemma-2.0.1}
+    Let the triple $(\mathcal{A}, \mathcal{H}, D)$ be a finite and absolutely continuous. Then $\mathcal{H}_\infty$ is a finite projective $\mathcal{A}$-module. It can be written as $\mathcal{H}_\infty = e \mathcal{A}^n$ with $e=e^* \in M_n(\mathcal{A})$. This defines the hermitian structure so that
+    \[ 
+    (\xi \mid \eta) = \sum_{j} \xi_j^*  \eta_j\in \mathcal{A} \quad \forall \xi, \eta \in e \mathcal{A}^n.
+    \]
+    \uses{def:involutive-algebra, def:self-adjoint-operator, def:representation-of-algebra, def:hilbert-space, def:spectral-finiteness, def:spectral-absolute-continuity}
+\end{lemma}
+
+
+\begin{lemma}[Lemma 2.0.2]\label{lem:lemma-2.0.2}
+    Let $(\mathcal{A}, \mathcal{H}, D)$ be a spectral triple. For all $a \in \mathcal{A}$ the operators $a |D|^{-p}$ are measurable and the coefficient
+    \[
+    \ncint \, a |D|^{-p}
+    \]
+    of the logarithmic divergence of their trace is unambiguously defined.
+    \uses{def:spectral-triple}
+\end{lemma}
+
+\begin{proof}
+    Follows from \ref{def:spectral-orientability} and theorem 8, IV.2.$\gamma$ in \cite{Connes1994} and \cite{Figueroa2000}.
+    \uses{def:spectral-triple}
+\end{proof}
+
+
+\begin{lemma}[Lemma 2.1]\label{lem:lemma-2.1}
+    The following conditions are equivalent for $T\in \mathcal{A}''$:
+    \begin{enumerate}
+    \item $T\in \mathcal{A}$.
+    \item $[D,T]$ is bounded and, for every integer $m\ge 0$, both $T$ and $[D,T]$ belong to $\textrm{Dom}(\delta^{m})$.
+    \item For every integer $m\ge 0$, $T\in \textrm{Dom}(\delta^{m})$.
+    \item $T H_\infty \subset H_\infty$.
+    \end{enumerate}
+    \uses{def:spectral-triple}
+\end{lemma}
+
+
 
 \section{Main Theorems}
 
@@ -144,7 +180,9 @@ This section collects all the necessary definitions, theorems and lemmas. It wil
     \end{enumerate}
     Then there exists a compact oriented smooth (spin$^c$) manifold $M$ such that $\mathcal{A} = C^\infty(M)$.
     \uses{def:spectral-triple}
-\end{theorem}
+\end{theorem}    
+
+
 
 \begin{corollary}[Reconstruction Theorem 1.2.a]\label{cor:reconstruction-theorem-1.2.a}
     The self-adjoint operator $D$ in Theorem \ref{thm:reconstruction-theorem-1.2} is a Dirac-type operator on $M$.
@@ -155,7 +193,9 @@ This section collects all the necessary definitions, theorems and lemmas. It wil
 \section{Bibliography}
 
 \begin{thebibliography}{20}
+    \bibitem{Connes1994} A. Connes, \emph{Noncmmutative Geometry}, Academic Press (1994)
     \bibitem{Connes1996} A. Connes, \emph{Gravity coupled with matter and the foundation of non-commutative geometry}, Commun. Math. Phys. 182 (1996), no. 1, 155–176. \url{https://doi.org/10.1007/BF02506388}
+    \bibitem{Figueroa2000} H. Figueroa, J.M. Gracia-Bond\'ia, J. Varilly, \emph{Elements of Noncommutative Geometry}, Birkh\"auser (2000) 
     \bibitem{Connes2008} A. Connes, \emph{On the spectral characterization of manifolds}, J. Noncommut. Geom. 7 (2013), no. 1, 1–82. \url{https://doi.org/10.4171/jncg/108} 
 \end{thebibliography}
 
